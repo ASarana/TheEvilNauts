@@ -4,14 +4,14 @@ using System.Collections;
 public class CamMove : MonoBehaviour
 {
 
-    public Vector3 camzero;
-    public Vector3 camtrans;
+     Vector3 camzero;
+    //public Vector3 camtrans;
     public Transform hero;
     void Start()
     {
-        // camzero = new Vector3(-40, -44, 2);
+        camzero = new Vector3(0, -82, -72);
         //camzero = hero.position - this.transform.position; //начальное положение камера относительно пакмана
-        this.transform.rotation = Quaternion.Euler(camtrans);
+       // this.transform.rotation = Quaternion.Euler(camtrans);
     }
 
     // Update is called once per frame

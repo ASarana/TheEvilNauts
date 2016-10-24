@@ -117,8 +117,8 @@ public class heromove : MonoBehaviour
         Mydebug.AddParamDebug("jumpdown", anima.GetBool("jumpdown").ToString());
         Mydebug.AddParamDebug("fall", anima.GetBool("fall").ToString());
         Mydebug.AddParamDebug("push", anima.GetBool("push").ToString());
-        Mydebug.AddParamDebug("Родитель меча", sword.transform.parent.name);
-        Mydebug.AddParamDebug("Родитель ружья", gun.transform.parent.name); 
+       // Mydebug.AddParamDebug("Родитель меча", sword.transform.parent.name);
+       // Mydebug.AddParamDebug("Родитель ружья", gun.transform.parent.name); 
         Mydebug.AddParamDebug("Анимация отграна?", getswordanim.ToString());
 
         Mydebug.ShowDebug(); // выводим дебаг
@@ -286,26 +286,26 @@ public class heromove : MonoBehaviour
     {
         h = CrossPlatformInputManager.GetAxis("Horizontal");
         v = CrossPlatformInputManager.GetAxis("Vertical");
-        h2 = CrossPlatformInputManager.GetAxis("Horizontal2");
-        v2 = CrossPlatformInputManager.GetAxis("Vertical2");
+        //h2 = CrossPlatformInputManager.GetAxis("Horizontal2");
+       // v2 = CrossPlatformInputManager.GetAxis("Vertical2");
         jump = CrossPlatformInputManager.GetButton("Jump");
         Fire1 = CrossPlatformInputManager.GetButton("Fire1");
-        Fire2 = CrossPlatformInputManager.GetAxis("Fire2");
-        Throw1 = CrossPlatformInputManager.GetButton("Throw1");
-        Throw2 = CrossPlatformInputManager.GetAxis("Throw2");
+     //   Fire2 = CrossPlatformInputManager.GetAxis("Fire2");
+      //  Throw1 = CrossPlatformInputManager.GetButton("Throw1");
+      //  Throw2 = CrossPlatformInputManager.GetAxis("Throw2");
 
-        WeaponSwich = CrossPlatformInputManager.GetAxis("WeaponSwich");
-        WeaponSwichK = CrossPlatformInputManager.GetButton("WeaponSwichK");
-        WeaponHide = CrossPlatformInputManager.GetButton("WeaponHide");
-        ItemSwichUp = CrossPlatformInputManager.GetAxis("ItemSwichUp");
-        ItemSwichDown = CrossPlatformInputManager.GetAxis("ItemSwichDown");
-        ThrowSwich = CrossPlatformInputManager.GetAxis("ThrowSwich");
-        Run = CrossPlatformInputManager.GetButton("Run");
-        Use = CrossPlatformInputManager.GetButton("Use");
-        UseItem = CrossPlatformInputManager.GetButton("UseItem");
-        Super = CrossPlatformInputManager.GetButton("Super");
-        back = CrossPlatformInputManager.GetButton("back");
-        start = CrossPlatformInputManager.GetButton("start");
+     //   WeaponSwich = CrossPlatformInputManager.GetAxis("WeaponSwich");
+     //   WeaponSwichK = CrossPlatformInputManager.GetButton("WeaponSwichK");
+     //   WeaponHide = CrossPlatformInputManager.GetButton("WeaponHide");
+     //   ItemSwichUp = CrossPlatformInputManager.GetAxis("ItemSwichUp");
+     //   ItemSwichDown = CrossPlatformInputManager.GetAxis("ItemSwichDown");
+     //   ThrowSwich = CrossPlatformInputManager.GetAxis("ThrowSwich");
+    //    Run = CrossPlatformInputManager.GetButton("Run");
+     //   Use = CrossPlatformInputManager.GetButton("Use");
+    //    UseItem = CrossPlatformInputManager.GetButton("UseItem");
+    //    Super = CrossPlatformInputManager.GetButton("Super");
+    //    back = CrossPlatformInputManager.GetButton("back");
+    //    start = CrossPlatformInputManager.GetButton("start");
 
 
 
