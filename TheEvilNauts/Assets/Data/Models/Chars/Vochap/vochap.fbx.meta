@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6e7e4ce2c500eca4da456214bcdb38ac
-timeCreated: 1477426607
+timeCreated: 1478364899
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -161,7 +161,8 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - vochap_metarig/root
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -523,13 +524,13 @@ ModelImporter:
       transformModified: 1
     - name: neck
       position: {x: -0.0000188876, y: 0.016743522, z: 0.0019760567}
-      rotation: {x: 0.07193591, y: 0.006932898, z: -0.0024654106, w: 0.99738216}
-      scale: {x: 0.9999999, y: 0.9999999, z: 0.99999994}
+      rotation: {x: 0.07193592, y: 0.0069328984, z: -0.0024654109, w: 0.99738216}
+      scale: {x: 0.9999999, y: 0.9999998, z: 1.0000001}
       transformModified: 1
     - name: head
-      position: {x: 5.8258424e-12, y: 0.0056424905, z: -9.319473e-10}
-      rotation: {x: -0.06923907, y: -0.007321256, z: 0.002142227, w: 0.99757093}
-      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+      position: {x: -6.1113975e-11, y: 0.0056424905, z: -1.8676428e-10}
+      rotation: {x: -0.06923907, y: -0.0073212567, z: 0.0021422268, w: 0.99757093}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
       transformModified: 1
     - name: head_end
       position: {x: -0, y: 0.0068192775, z: 0}
@@ -753,18 +754,18 @@ ModelImporter:
       transformModified: 1
     - name: shin.L
       position: {x: -0.0000000015803379, y: 0.017652513, z: -4.1909515e-10}
-      rotation: {x: 0.24463606, y: -0.0044882526, z: -0.053624522, w: 0.9681206}
-      scale: {x: 0.999994, y: 0.9999925, z: 0.9999995}
+      rotation: {x: 0.24463604, y: -0.004488219, z: -0.05362451, w: 0.96812063}
+      scale: {x: 0.99998444, y: 0.99998736, z: 0.99999905}
       transformModified: 1
     - name: foot.L
-      position: {x: 5.4453336e-10, y: 0.021546677, z: 6.2758543e-10}
-      rotation: {x: -0.3975341, y: -0.0015127868, z: 0.0035136957, w: 0.9175795}
-      scale: {x: 1, y: 1, z: 0.99999994}
+      position: {x: -4.669831e-10, y: 0.02154668, z: 1.8578702e-10}
+      rotation: {x: -0.3975342, y: -0.0015127901, z: 0.0035136892, w: 0.9175795}
+      scale: {x: 1, y: 0.99999994, z: 1}
       transformModified: 1
     - name: toe.L
-      position: {x: -5.782335e-10, y: 0.0063049938, z: 3.5959145e-11}
-      rotation: {x: 0.0000004454078, y: 0.9378705, z: -0.3469855, w: -0.0000016434573}
-      scale: {x: 1, y: 0.99999964, z: 1}
+      position: {x: -6.825199e-10, y: 0.006304996, z: -6.2652813e-11}
+      rotation: {x: 0.00000044540855, y: 0.9378705, z: -0.3469855, w: -0.0000016434576}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1.0000001}
       transformModified: 1
     - name: toe.L_end
       position: {x: -0, y: 0.0077181463, z: 0}
@@ -778,18 +779,18 @@ ModelImporter:
       transformModified: 1
     - name: shin.R
       position: {x: 0.0000000012034433, y: 0.017652519, z: 6.8685035e-10}
-      rotation: {x: 0.24463606, y: 0.00448826, z: 0.05362451, w: 0.9681206}
-      scale: {x: 0.99999386, y: 0.99999285, z: 0.99999934}
+      rotation: {x: 0.24463609, y: 0.0044882256, z: 0.053624496, w: 0.9681206}
+      scale: {x: 0.99998534, y: 0.9999879, z: 0.9999993}
       transformModified: 1
     - name: foot.R
-      position: {x: -2.6840583e-10, y: 0.021546677, z: -3.9741505e-10}
-      rotation: {x: -0.3975354, y: 0.0015128033, z: -0.0035151553, w: 0.9175788}
-      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+      position: {x: 0.0000000018654738, y: 0.021546677, z: -9.781615e-11}
+      rotation: {x: -0.39753532, y: 0.0015128019, z: -0.0035151574, w: 0.9175789}
+      scale: {x: 1, y: 0.9999998, z: 1}
       transformModified: 1
     - name: toe.R
-      position: {x: -0.0000000010405415, y: 0.0063049938, z: 1.7234924e-11}
-      rotation: {x: -0.00000044540806, y: 0.9378705, z: -0.34698564, w: 0.0000016434576}
-      scale: {x: 1, y: 1, z: 1.0000001}
+      position: {x: -6.3259724e-11, y: 0.0063049933, z: -2.8092017e-11}
+      rotation: {x: -0.0000004454083, y: 0.9378705, z: -0.34698564, w: 0.0000016434577}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
       transformModified: 1
     - name: toe.R_end
       position: {x: -0, y: 0.0077181463, z: 0}
