@@ -9,9 +9,9 @@ public class CamMove : MonoBehaviour
     public Transform hero;
     void Start()
     {
-        camzero = new Vector3(0, -82, -72);
+        camzero = new Vector3(0, -80, 75);
         //camzero = hero.position - this.transform.position; //начальное положение камера относительно пакмана
-       // this.transform.rotation = Quaternion.Euler(camtrans);
+		// this.transform.rotation = Quaternion.Euler(camtrans);-82, -72
     }
 
     // Update is called once per frame
