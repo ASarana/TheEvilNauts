@@ -508,7 +508,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: hips
-      position: {x: 0.0000020222703, y: 0.0027920217, z: 0.035940744}
+      position: {x: 0.0000020222703, y: 0.002792022, z: 0.035940744}
       rotation: {x: 0.000021822594, y: 0.63349634, z: 0.7737458, w: -0.000017769447}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
@@ -673,7 +673,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: thumb.01.R
-      position: {x: 0.0035766717, y: -0.0007224098, z: 0.0018761372}
+      position: {x: 0.0035766717, y: -0.00072240987, z: 0.0018761372}
       rotation: {x: -0.042765144, y: 0.9625524, z: 0.24332662, w: -0.111607194}
       scale: {x: 0.9999997, y: 0.9999999, z: 1}
       transformModified: 1
