@@ -5,6 +5,7 @@ using UnityEngine;
 public class Menu : MonoBehaviour
 {
 	public GameObject StartMenu;
+	public GameObject Gui;
 	public GameObject Character;
 	// Use this for initialization
 	void Start () 
@@ -23,10 +24,11 @@ public class Menu : MonoBehaviour
 		Debug.Log("<color=red>Start</color>"); 
 		StartMenu.SetActive(false);
 		Character.SetActive (true);
+		Gui.SetActive(true);
 	}
 
-	public void PressQuit()
-	{
+	public void PressQuit()		
+	{		
 		Debug.Log("<color=red>Quit</color>"); 
 		//Application.Quit ();
 	}
