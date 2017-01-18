@@ -170,11 +170,11 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
@@ -307,8 +307,8 @@ ModelImporter:
         weight: 1
       - path: vochap_metarig/root/hips/thigh.R/shin.R/foot.R/toe.R/toe.R_end
         weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
+      maskType: 1
+      maskSource: {fileID: 101100000, guid: b5415a6b5ecb31047b3a21b4f044eaf2, type: 2}
       additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:

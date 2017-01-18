@@ -132,7 +132,7 @@ ModelImporter:
     4300000: vochap_mesh
     7400000: vochap_sit
     7400002: vochap_metarig|vochapMR.001|vochapMR|vochapMRAction|vochapMR|vochapMRAction
-    7400004: vochap_metarig|vochap_metarigAction
+    7400004: vochap_sit
     9500000: //RootNode
     13700000: vochap_mesh
   materials:
@@ -152,7 +152,7 @@ ModelImporter:
       anim@vochap_sit'
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -160,25 +160,25 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: vochap_metarig|vochap_metarigAction
+      name: vochap_sit
       takeName: vochap_metarig|vochap_metarigAction
       firstFrame: 0
       lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
-      level: -0.45
+      level: -0.3
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 1
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
