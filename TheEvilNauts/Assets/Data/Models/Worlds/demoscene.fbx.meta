@@ -6,10 +6,19 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: ark_01
+    100004: ground
     400000: //RootNode
+    400002: ark_01
+    400004: ground
     2300000: //RootNode
+    2300002: ark_01
+    2300004: ground
     3300000: //RootNode
+    3300002: ark_01
+    3300004: ground
     4300000: ground
+    4300002: ark_01
   materials:
     importMaterials: 0
     materialName: 0
