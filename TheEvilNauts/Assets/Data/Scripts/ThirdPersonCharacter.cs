@@ -9,7 +9,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
-		[Range(1f, 100f)][SerializeField] float m_GravityMultiplier = 2f;
+        [SerializeField] float m_JumpPower = 12f;
+        [Range(1f, 100f)][SerializeField] float m_GravityMultiplier = 2f;
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
@@ -120,10 +121,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetBool("Crouch", m_Crouching);
 			m_Animator.SetBool("OnGround", m_IsGrounded);
-			//if (!m_IsGrounded)
-			//{
+            if (!m_IsGrounded)
+			{
 				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
-		//	}
+			}
 
 			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 			// which affects the movement speed because of the root motion.
@@ -153,6 +154,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void HandleGroundedMovement(bool crouch, bool jump)
 		{          
            // m_Animator.SetFloat("GroundDistance", m_GroundCheckDistance);
+            if (jump && !crouch)
+            {
+                // jump!
+                m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
+                m_IsGrounded = false;
+                m_Animator.applyRootMotion = false;
+                m_GroundCheckDistance = 0.1f;
+            }
         }
 
 		void ApplyExtraTurnRotation()
