@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent (typeof (Image))]
 public class RollControl : MonoBehaviour {
 
-	public Image targetImage;
+	Image targetImage;
 	public float rollSpeed = 1F;
-	float RollingTime = 0;
-	int angle = 90;
+	float rollingTime = 0;
+	public int angle = 90;
+	public bool randomAngle = false;
+	public bool clockwise = false;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -16,24 +20,35 @@ public class RollControl : MonoBehaviour {
 			targetImage = GetComponent<Image>();
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
-		if (RollingTime > 0) {
-			RollingStone ();
-			RollingTime -= (RollingTime*rollSpeed)/angle;
+		if (Input.GetKeyDown (KeyCode.Tab)) 
+		{
+			if (randomAngle)
+			{
+				rollingTime += (int)Random.Range (0, angle);
+			}
+			else 
+			{
+				rollingTime += angle;
+			}
+			Debug.Log (rollingTime);
 		}
 
+		float speed = Mathf.Floor((rollingTime*rollSpeed)/angle);
+
+		if (rollingTime > 0) 
+		{
+			rollingTime -= speed;
+			RollingStone (speed);
+		}
+			
 	}
 
-	public void PlsRollMe()
+	void RollingStone (float speed) 
 	{
-		RollingTime += angle;
-	}
-
-	void RollingStone () 
-	{
-		float speed =(RollingTime*rollSpeed)/angle;
+		if (clockwise)
+			speed *= -1;
 		Vector3 angleOfRotation = new Vector3 (0, 0,speed);
 
 		targetImage.rectTransform.Rotate (angleOfRotation);

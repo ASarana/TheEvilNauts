@@ -18,18 +18,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
 		bool m_IsGrounded;
+		bool m_Crouching;
 		float m_OrigGroundCheckDistance;
-		const float k_Half = 0.5f;
 		float m_TurnAmount;
 		float m_ForwardAmount;
-		Vector3 m_GroundNormal;
+		float gd;
 		float m_CapsuleHeight;
+		Vector3 m_GroundNormal;
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
-		bool m_Crouching;
-        float gd;
-
-
+		//const float k_Half = 0.5f;
+       
 		void Start()
 		{
 			m_Animator = GetComponent<Animator>();
@@ -37,12 +36,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Capsule = GetComponent<CapsuleCollider>();
 			m_CapsuleHeight = m_Capsule.height;
 			m_CapsuleCenter = m_Capsule.center;
-
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
-
-
+			
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
 
@@ -68,15 +65,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				HandleAirborneMovement();
 			}
 
-			ScaleCapsuleForCrouching(crouch);
-			PreventStandingInLowHeadroom();
+			//ScaleCapsuleForCrouching(crouch);
+			//PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
 			UpdateAnimator(move);
 		}
 
 
-		void ScaleCapsuleForCrouching(bool crouch)
+		/*void ScaleCapsuleForCrouching(bool crouch)
 		{
 			if (m_IsGrounded && crouch)
 			{
@@ -98,9 +95,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Capsule.center = m_CapsuleCenter;
 				m_Crouching = false;
 			}
-		}
+		}*/
 
-		void PreventStandingInLowHeadroom()
+		/*void PreventStandingInLowHeadroom()
 		{
 			// prevent standing up in crouch-only zones
 			if (!m_Crouching)
@@ -112,7 +109,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					m_Crouching = true;
 				}
 			}
-		}
+		}*/
 
 
 		void UpdateAnimator(Vector3 move)
@@ -145,7 +142,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// apply extra gravity from multiplier:
 			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
-
 			m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
             m_Animator.SetFloat("GroundDistance", gd);
         }
@@ -160,7 +156,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
                 m_IsGrounded = false;
                 m_Animator.applyRootMotion = false;
-                m_GroundCheckDistance = 0.1f;
+				m_GroundCheckDistance = 0.01f;
             }
         }
 
@@ -194,7 +190,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			RaycastHit hitInfo;
 #if UNITY_EDITOR
 			// helper to visualise the ground check ray in the scene view
-			Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
+			Debug.DrawLine(transform.position + (Vector3.up * 0.1f ), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
 #endif
 			// 0.1f is a small offset to start the ray from inside the character
 			// it is also good to note that the transform position in the sample assets is at the base of the character

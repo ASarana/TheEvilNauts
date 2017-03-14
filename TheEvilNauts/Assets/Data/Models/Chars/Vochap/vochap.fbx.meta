@@ -71,6 +71,7 @@ ModelImporter:
     100126: vochap_mesh
     100128: vochap_metarig
     100130: root
+    100132: walking_zombie
     400000: chest
     400002: f_index.01.L
     400004: f_index.01.R
@@ -137,8 +138,12 @@ ModelImporter:
     400126: vochap_mesh
     400128: vochap_metarig
     400130: root
+    400132: walking_zombie
+    2300000: walking_zombie
+    3300000: walking_zombie
     4300000: vochapDT
     4300002: vochap_mesh
+    4300004: walking_zombie
     9500000: //RootNode
     13700000: vochapDT
     13700002: vochap_mesh
@@ -152,7 +157,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    animationImportErrors: 
+    animationImportErrors: "Avatar creation failed:\n\tTransform 'hips' for human
+      bone 'Hips' not found\n"
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
@@ -161,8 +167,7 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths:
-    - vochap_metarig/root
+    extraExposedTransformPaths: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -186,7 +191,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
