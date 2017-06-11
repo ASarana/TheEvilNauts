@@ -4,20 +4,36 @@ using System.Collections;
 public class CamMove : MonoBehaviour
 {
 
-     Vector3 camzero;
-    //public Vector3 camtrans;
-    public Transform hero;
+    public GameObject hero;
+    Vector3 pos;
+    bool clock;
+    bool unclock;
+
     void Start()
     {
-        camzero = new Vector3(0, -80, 75);
-        //camzero = hero.position - this.transform.position; //начальное положение камера относительно пакмана
-		// this.transform.rotation = Quaternion.Euler(camtrans);-82, -72
+        pos = transform.position - hero.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = hero.position - camzero; //двигаем камеру в след за пакманом
-       // print(camzero);
+        clock = Input.GetKey(KeyCode.Keypad9);
+        unclock = Input.GetKey(KeyCode.Keypad7);
+        
+        if (clock & !unclock)
+        {
+            transform.RotateAround(hero.transform.position, Vector3.up, 5);
+            transform.LookAt(hero.transform.position);
+            pos = transform.position - hero.transform.position;
+        }
+
+        if (!clock & unclock)
+        {
+            transform.RotateAround(hero.transform.position, Vector3.up, -5);
+            transform.LookAt(hero.transform.position);
+            pos = transform.position - hero.transform.position;
+        }
+        
+        transform.position = hero.transform.position + pos;
     }
 }

@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - chest
+  - slot1
+  - handr
+  - weapon
+  - bullet
+  - EnemyWeapon
   layers:
   - Default
   - TransparentFX
