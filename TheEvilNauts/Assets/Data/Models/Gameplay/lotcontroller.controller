@@ -10,7 +10,7 @@ AnimatorController:
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: activity
     m_StateMachine: {fileID: 1107621856205550816}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -28,7 +28,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: start
-  m_Speed: 0.5
+  m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -50,7 +50,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: activity
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102785361539593688}

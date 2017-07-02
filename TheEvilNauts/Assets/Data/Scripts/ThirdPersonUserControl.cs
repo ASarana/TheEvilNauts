@@ -62,6 +62,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             bool SwichSlot1 = Input.GetKeyDown(KeyCode.Alpha1);
             bool SwichSlot2 = Input.GetKeyDown(KeyCode.Alpha2);
             bool reload = Input.GetKeyDown(KeyCode.R);
+            bool use = Input.GetKeyDown(KeyCode.E);
             float hit = CrossPlatformInputManager.GetAxis("Fire1");
 
             // calculate move direction to pass to character
@@ -82,7 +83,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #endif
             // pass all parameters to the character control script
 			m_Character.Move(m_Move, crouch, m_Jump);
-            m_Character.GetInput(SwichSlot1, SwichSlot2, hit, reload);
+            m_Character.GetInput(SwichSlot1, SwichSlot2, hit, reload, use);
             m_Jump = false;
         }
     }

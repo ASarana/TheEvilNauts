@@ -26,7 +26,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField]
         float m_GroundCheckDistance = 10f;
         [SerializeField]
+        float m_AroundCheckDistance = 10f;
+        [SerializeField]
         float gdcheck = 0.2f;
+        [SerializeField]
+        float archeck = 0.5f;
         [SerializeField]
         float m_RunCycleLegOffset = 0.2f;
 
@@ -38,14 +42,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         float m_OrigGroundCheckDistance;
         float m_TurnAmount;
         float m_ForwardAmount;
-        float gd;
-        float wdu;
-        float wdd;
-        float gd2;
+        float GroundDistance;
+        float WallDistanceUp;
+        float WallDistanceDown;
         float m_CapsuleHeight;
-        float NumberOfSlot;
+        float StairGoMulti;
         bool Slot1Use;
         bool Slot2Use;
+        bool IsJump;
         float Hit;
         bool oneshot;
         float JumpFloat;
@@ -54,6 +58,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public int life;
         bool Death;
         bool Damage;
+        bool Push;
+        bool Swim;
+        bool Canuse;
+        bool Use;
+        bool GoOnStair;
+        bool goupup;
+        bool godowndown;
+        RaycastHit hitInfoObjectbehindUp;
+        RaycastHit hitInfoObjectbehindDown;
+        RaycastHit hitInfoGround;
+        RaycastHit hitInfoHead;
 
         const float k_Half = 0.5f;
 
@@ -64,9 +79,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         Transform slot2;
         Transform USESLOT1;
         Transform USESLOT2;
-        AnimatorStateInfo stateInfo;
+        AnimatorStateInfo stateInfo1;
         AnimatorStateInfo stateInfo2;
         AnimatorStateInfo stateInfo0;
+        AnimatorStateInfo stateInfo3;
+        AnimatorStateInfo stateInfo4;
 
         void Start()
         {
@@ -87,34 +104,33 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void Move(Vector3 move, bool crouch, bool jump)
         {
-            if (move.magnitude > 1f) move.Normalize();
-            if (Death) move = Vector3.zero;
-            Vector3 moverot = transform.InverseTransformDirection(move);
-            CheckGroundStatus();
-            move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-            m_TurnAmount = Mathf.Atan2(moverot.x, moverot.z);
-            m_ForwardAmount = moverot.z;
-            ApplyExtraTurnRotation();
-            WeaponChange();
-            ReloadGun();
-            Fire();
-            Punch();
+            UpdateGUI();
+            ChekAnimanorStateInfo();
+            CheckAroundStatus();
             DeathHeho();
-            if (m_IsGrounded)
+
+            //  if (Death) move = Vector3.zero;
+
+            if (!Death)
             {
-                JumpLeg();
-                HandleGroundedMovement(jump);
-                Vector3 v = (move * m_MoveSpeedMultiplier) / Time.deltaTime;
-                v.y = m_Rigidbody.velocity.y;
-                m_Rigidbody.velocity = v;
-                JumpFloat = 0;
+                if (move.magnitude > 1f) move.Normalize();
+                if (GoOnStair)
+                {
+                    StairsMove(move);
+                }
+                else if (!GoOnStair)
+                {
+                    NormalMove(move, jump);
+                }
+
+                WeaponChange();
+                ReloadGun();
+                Fire();
+                Punch();
+                UseObjects();
             }
-            else
-            {
-                HandleAirborneMovement(move);
-                JumpFloat = m_Rigidbody.velocity.y;
-                if (JumpFloat < -20) life -= 50;
-            }
+            else HandleAirborneMovement(move);
+
             UpdateAnimator(move);
         }
 
@@ -122,46 +138,42 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
             m_Animator.SetBool("OnGround", m_IsGrounded);
-            m_Animator.SetFloat("Jump", JumpFloat);
-            m_Animator.SetFloat("WallDistanceUp", wdu);
-            m_Animator.SetFloat("WallDistanceDown", wdd);
+            m_Animator.SetFloat("JumpFloat", JumpFloat);
+            m_Animator.SetFloat("WallDistanceUp", WallDistanceUp);
+            m_Animator.SetFloat("WallDistanceDown", WallDistanceDown);
             m_Animator.SetBool("SwichSlot1", SwichSlot1);
             m_Animator.SetBool("SwichSlot2", SwichSlot2);
-            m_Animator.SetFloat("Hit", HitHit);
+            m_Animator.SetFloat("HitHit", HitHit);
             m_Animator.SetBool("Slot1Use", Slot1Use);
             m_Animator.SetBool("Slot2Use", Slot2Use);
             m_Animator.SetBool("Death", Death);
             m_Animator.SetBool("Damage", Damage);
+            m_Animator.SetBool("Reload", Reload);
+            m_Animator.SetBool("Push", Push);
+            m_Animator.SetBool("Swim", Swim);
+            m_Animator.SetBool("GoOnStair", GoOnStair);
+            m_Animator.SetBool("GoDownDown", godowndown);
+            m_Animator.SetFloat("GroundDistance", GroundDistance);
+            m_Animator.SetBool("IsJump", IsJump);
+            m_Animator.SetFloat("StairGoMulti", StairGoMulti);
         }
 
         void HandleAirborneMovement(Vector3 move)
         {
-            RaycastHit hitInfo, hitInfo2;
-            Debug.DrawLine(transform.position + (Vector3.up * transform.localScale.y), transform.position + (Vector3.up * transform.localScale.y) + (move.normalized * m_GroundCheckDistance));
-
-            if (Physics.Raycast(transform.position + (Vector3.up * transform.localScale.y), move.normalized, out hitInfo, m_GroundCheckDistance))
-                wdu = hitInfo.distance;
-            else wdu = 999;
-
-            Debug.DrawLine(transform.position + (Vector3.up * transform.localScale.y * 0.1f), transform.position + (Vector3.up * transform.localScale.y * 0.1f) + (move.normalized * m_GroundCheckDistance));
-
-            if (Physics.Raycast(transform.position + (Vector3.up * transform.localScale.y * 0.1f), move.normalized, out hitInfo2, m_GroundCheckDistance))
-                wdd = hitInfo2.distance;
-            else wdd = 999;
             // apply extra gravity from multiplier:
             Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
             m_Rigidbody.AddForce(extraGravityForce);
             m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 12f;
 
-            if (wdu > 0.5 && wdd <= 0.45 && m_Animator.GetBool("IsJump"))
+            if (WallDistanceUp > 0.5 && WallDistanceDown <= 0.45 && IsJump)
                 m_Rigidbody.velocity = new Vector3(move.x, m_JumpPower * SecondJumpPower, move.z);
         }
 
         void HandleGroundedMovement(bool jump)
         {
-            if (jump)
+            if (jump && !Death)
             {
-                m_Animator.SetBool("IsJump", true);
+                IsJump = true;
                 m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
                 m_IsGrounded = false;
                 m_Capsule.material.frictionCombine = PhysicMaterialCombine.Minimum;
@@ -175,27 +187,46 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-        void CheckGroundStatus()
+        void CheckAroundStatus()
         {
-            RaycastHit hitInfo;
-            Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
-            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance))
-                gd = hitInfo.distance;
+            // Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
+            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfoGround, m_GroundCheckDistance))
+                GroundDistance = hitInfoGround.distance;
+            else GroundDistance = 999;
+            // Debug.DrawLine(transform.position + (Vector3.up * transform.localScale.y), transform.position + (Vector3.up * transform.localScale.y) + (move.normalized * m_GroundCheckDistance));
+            if (Physics.Raycast(transform.position + (Vector3.up * transform.localScale.y), transform.forward, out hitInfoObjectbehindUp, m_AroundCheckDistance))
+                WallDistanceUp = hitInfoObjectbehindUp.distance;
+            else WallDistanceUp = 999;
+            // Debug.DrawLine(transform.position + (Vector3.up * transform.localScale.y * 0.1f), transform.position + (Vector3.up * transform.localScale.y * 0.1f) + (move.normalized * m_GroundCheckDistance));
+            if (Physics.Raycast(transform.position + (Vector3.up * transform.localScale.y * 0.1f), transform.forward, out hitInfoObjectbehindDown, m_AroundCheckDistance))
+                WallDistanceDown = hitInfoObjectbehindDown.distance;
+            else WallDistanceDown = 999;
 
-            if (gd >= gdcheck)
+
+            if (GroundDistance >= gdcheck)
             {
                 m_IsGrounded = false;
                 m_GroundNormal = Vector3.up;
-                m_Animator.SetFloat("GroundDistance", gd);
                 m_Capsule.material.frictionCombine = PhysicMaterialCombine.Minimum;
             }
             else
             {
                 m_IsGrounded = true;
-                m_Animator.SetBool("IsJump", false);
-                m_GroundNormal = hitInfo.normal;
-                m_Animator.SetFloat("GroundDistance", gd);
+                IsJump = false;
+                if(hitInfoGround.transform)
+                    m_GroundNormal = hitInfoGround.normal;
+                else m_GroundNormal = Vector3.up;
                 m_Capsule.material.frictionCombine = PhysicMaterialCombine.Maximum;
+            }
+
+            if (WallDistanceUp < archeck && hitInfoObjectbehindUp.collider.tag == "box")
+                Push = true;
+            else if (WallDistanceDown < archeck && hitInfoObjectbehindDown.collider.tag == "stair")
+                Canuse = true;
+            else
+            {
+                Push = false;
+                Canuse = false;
             }
         }
 
@@ -208,21 +239,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void WeaponChange()
         {
-            stateInfo0 = m_Animator.GetCurrentAnimatorStateInfo(0);
-            stateInfo = m_Animator.GetCurrentAnimatorStateInfo(1);
-            stateInfo2 = m_Animator.GetCurrentAnimatorStateInfo(2);
-
             if (SwichSlot1 && !Slot2Use && !SwichSlot2 && stateInfo2.IsName("Useslot2.idle_unnarmed"))
             {
                 SwichSlot1 = true;
             }
-            else if (SwichSlot2 && !Slot1Use && !SwichSlot1 && stateInfo.IsName("Useslot1.idle_unnarmed"))
+            else if (SwichSlot2 && !Slot1Use && !SwichSlot1 && stateInfo1.IsName("Useslot1.idle_unnarmed"))
             {
                 SwichSlot2 = true;
             }
 
-
-            if (stateInfo.IsName("Useslot1.take_slot1") && !Slot1Use && stateInfo.normalizedTime >= 0.5f)
+            if (stateInfo1.IsName("Useslot1.take_slot1") && !Slot1Use && stateInfo1.normalizedTime >= 0.5f)
             {
                 slot1.GetChild(0).SetParent(USESLOT1);
                 Slot1Use = true;
@@ -231,7 +257,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 USESLOT1.GetChild(0).localRotation = Quaternion.Euler(0, 0, 0);
             }
 
-            else if (stateInfo.IsName("Useslot1.put_slot1") && Slot1Use && stateInfo.normalizedTime >= 0.5f)
+            else if (stateInfo1.IsName("Useslot1.put_slot1") && Slot1Use && stateInfo1.normalizedTime >= 0.5f)
             {
                 USESLOT1.GetChild(0).SetParent(slot1);
                 Slot1Use = false;
@@ -240,7 +266,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 slot1.GetChild(0).localRotation = Quaternion.Euler(0, 0, 0);
             }
 
-            else if (stateInfo2.IsName("Useslot2.take_slot2") && !Slot2Use && stateInfo.normalizedTime >= 0.5f)
+            else if (stateInfo2.IsName("Useslot2.take_slot2") && !Slot2Use && stateInfo2.normalizedTime >= 0.5f)
             {
                 slot2.GetChild(0).SetParent(USESLOT2);
                 Slot2Use = true;
@@ -249,8 +275,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 USESLOT2.GetChild(0).localRotation = Quaternion.Euler(0, 0, 0);
             }
 
-
-            else if (stateInfo2.IsName("Useslot2.put_slot2") && Slot2Use && stateInfo.normalizedTime >= 0.5f)
+            else if (stateInfo2.IsName("Useslot2.put_slot2") && Slot2Use && stateInfo2.normalizedTime >= 0.5f)
             {
                 USESLOT2.GetChild(0).SetParent(slot2);
                 Slot2Use = false;
@@ -259,7 +284,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 slot2.GetChild(0).localRotation = Quaternion.Euler(0, 0, 0);
             }
 
-            if (stateInfo0.IsName("Unarmmed.take_damage") && stateInfo.normalizedTime >= 0.5f)
+			if (stateInfo4.IsName("Hits.take_damage") && stateInfo4.normalizedTime >= 0.5f)
             {
                 Damage = false;
             }
@@ -272,27 +297,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 oneshot = false;
                 HitHit = Hit;
             }
-            if (Hit > 0.1 && Slot2Use && !oneshot && !USESLOT2.GetChild(0).GetComponent<GunBeh>().reload)
+            if (Hit > 0.1 && Slot2Use && !oneshot && !USESLOT2.GetChild(0).GetComponent<GunBeh>().reload && USESLOT2.GetChild(0).GetComponent<GunBeh>().holder != 0)
             {
                 HitHit = Hit;
                 USESLOT2.GetChild(0).GetComponent<GunBeh>().Fire();
                 oneshot = true;
             }
-            GameObject.Destroy(GameObject.Find("Sphere"), 0.5f);
+            
         }
 
         void Punch()
         {
             if (Hit > 0.1 && Slot1Use)
                 HitHit = Hit;
-
-            stateInfo = m_Animator.GetCurrentAnimatorStateInfo(1);
-            if (stateInfo.IsName("Useslot1.machete_punch") && Slot1Use)
+            if ((stateInfo1.IsName("Useslot1.machete_punch1") || stateInfo1.IsName("Useslot1.machete_punch2") || stateInfo1.IsName("Useslot1.machete_punch3")) && Slot1Use)
             {
                 Transform weapon = USESLOT1.GetChild(0);
                 weapon.gameObject.GetComponent<BoxCollider>().enabled = true;
             }
-            else if (!stateInfo.IsName("Useslot1.machete_punch") && Slot1Use)
+            else if (!stateInfo1.IsName("Useslot1.machete_punch1") && !stateInfo1.IsName("Useslot1.machete_punch2") && !stateInfo1.IsName("Useslot1.machete_punch3") && Slot1Use)
             {
                 Transform weapon = USESLOT1.GetChild(0);
                 weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -303,7 +326,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (Reload && Slot2Use)
             {
-                Debug.Log("Rel");
                 USESLOT2.GetChild(0).GetComponent<GunBeh>().Reload();
             }
 
@@ -314,15 +336,37 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (life <= 0 && !Death)
             {
                 Death = true;
+              //  m_Rigidbody.velocity = Vector3.zero;
             }
         }
 
-        public void GetInput(bool swichslot1, bool swichslot2, float hit, bool reload)
+        public void GetInput(bool swichslot1, bool swichslot2, float hit, bool reload, bool use)
         {
             SwichSlot1 = swichslot1;
             SwichSlot2 = swichslot2;
             Hit = hit;
             Reload = reload;
+            Use = use;
+        }
+
+
+        void UseObjects()
+        {
+            if(Use && Canuse && !GoOnStair && hitInfoObjectbehindDown.collider.tag == "stair")
+            {
+                GoOnStair = true;
+                Use = false;
+                Vector3 moverot = transform.InverseTransformDirection(-hitInfoObjectbehindDown.normal);
+                m_TurnAmount = Mathf.Atan2(moverot.x, moverot.z);
+                float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, 1);
+                transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+            }
+            else if (Use && Canuse && GoOnStair && hitInfoObjectbehindDown.collider.tag == "stair")
+            {
+                GoOnStair = false;
+            }
+            else if (hitInfoObjectbehindDown.collider == null || hitInfoObjectbehindDown.collider.tag != "stair")
+                GoOnStair = false;
         }
 
         void OnTriggerEnter(Collider other)
@@ -339,6 +383,97 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 life -= other.GetComponent<WeaponBeh>().power;
                 Damage = true;
                 Debug.Log(life);
+            }
+
+            if (other.tag == "water")
+            {
+                Swim = true;
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "water")
+            {
+                Swim = false;
+            }
+        }
+
+        void UpdateGUI()
+        {
+            GameObject.Find("Health").GetComponent<BarContoller>().SetValue(life);
+        }
+
+        void ChekAnimanorStateInfo()
+        {
+            stateInfo0 = m_Animator.GetCurrentAnimatorStateInfo(0);
+            stateInfo1 = m_Animator.GetCurrentAnimatorStateInfo(1);
+            stateInfo2 = m_Animator.GetCurrentAnimatorStateInfo(2);
+            stateInfo3 = m_Animator.GetCurrentAnimatorStateInfo(3);
+            stateInfo4 = m_Animator.GetCurrentAnimatorStateInfo(4);
+        }
+
+        void NormalMove(Vector3 move, bool jump)
+        {
+            m_Animator.speed = 2.5f;
+            m_Rigidbody.isKinematic = false;
+            move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+            Vector3 moverot = transform.InverseTransformDirection(move);
+            m_TurnAmount = Mathf.Atan2(moverot.x, moverot.z);
+            m_ForwardAmount = moverot.z;
+            ApplyExtraTurnRotation();
+
+            if (m_IsGrounded)
+            {
+                JumpLeg();
+                HandleGroundedMovement(jump);
+                Vector3 v = (move * m_MoveSpeedMultiplier) / Time.deltaTime;
+                v.y = m_Rigidbody.velocity.y;
+                m_Rigidbody.velocity = v;
+                JumpFloat = 0;
+            }
+            else
+            {
+                HandleAirborneMovement(move);
+                JumpFloat = m_Rigidbody.velocity.y;
+                if (JumpFloat < -20) life -= 50;
+            }
+        }
+
+        void StairsMove(Vector3 move)
+        {
+            m_Rigidbody.isKinematic = true;
+            // move = Vector3.ProjectOnPlane(move, hitInfoobjectbehind.normal);
+            if (move.z > 0)
+            {
+                transform.position += transform.up * move.z * 0.1f;
+                // m_Animator.speed = 2.5f;
+                StairGoMulti = 1;
+                 godowndown = false;
+            }
+            else if (move.z < 0 && GroundDistance > gdcheck)
+            {
+                transform.position += transform.up * move.z * 0.1f;
+                // m_Animator.speed = 2.5f;
+                StairGoMulti = 1;
+                godowndown = true;
+            }
+            else if (move.z == 0 && stateInfo0.IsName("go_up"))
+            {
+                //m_Animator.speed = 0;
+                StairGoMulti = 0;
+            }
+
+            if (WallDistanceUp - WallDistanceDown > 1)
+            {
+               // m_Animator.speed = 2.5f;
+                GoOnStair = false;
+                Use = false;
+                m_Rigidbody.isKinematic = false;
+                move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+                //  m_Rigidbody.velocity = new Vector3(move.x, m_JumpPower * SecondJumpPower*2, move.z);
+                // jump = true;
+                IsJump = true;
             }
         }
     }

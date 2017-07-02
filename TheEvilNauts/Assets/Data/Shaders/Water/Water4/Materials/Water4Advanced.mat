@@ -217,7 +217,7 @@ Material:
       second: {r: 0.12794118, g: 0.42647058, b: 0.14989188, a: 0.82}
     - first:
         name: _BumpDirection
-      second: {r: 40, g: 40, b: 40, a: -40}
+      second: {r: 1, g: 1, b: 1, a: -1}
     - first:
         name: _BumpMap_ST
       second: {r: 1, g: 1, b: 0, a: 0}
