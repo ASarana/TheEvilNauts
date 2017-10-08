@@ -94,10 +94,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_CapsuleCenter = m_Capsule.center;
             m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             m_OrigGroundCheckDistance = m_GroundCheckDistance;
-            slot1 = transform.FindChild("vochapMR").FindChild("root").FindChild("hips").FindChild("spine").FindChild("SLOT1");
-            slot2 = transform.FindChild("vochapMR").FindChild("root").FindChild("hips").FindChild("spine").FindChild("chest").FindChild("SLOT2");
-            USESLOT1 = transform.FindChild("vochapMR").FindChild("root").FindChild("hips").FindChild("spine").FindChild("chest").FindChild("shoulder.R").FindChild("upper_arm.R").FindChild("forearm.R").FindChild("hand.R").FindChild("USESLOT1");
-            USESLOT2 = transform.FindChild("vochapMR").FindChild("root").FindChild("hips").FindChild("spine").FindChild("chest").FindChild("shoulder.R").FindChild("upper_arm.R").FindChild("forearm.R").FindChild("hand.R").FindChild("USESLOT2");
+            slot1 = transform.Find("vochapMR").Find("root").Find("hips").Find("spine").Find("SLOT1");
+            slot2 = transform.Find("vochapMR").Find("root").Find("hips").Find("spine").Find("chest").Find("SLOT2");
+            USESLOT1 = transform.Find("vochapMR").Find("root").Find("hips").Find("spine").Find("chest").Find("shoulder.R").Find("upper_arm.R").Find("forearm.R").Find("hand.R").Find("USESLOT1");
+            USESLOT2 = transform.Find("vochapMR").Find("root").Find("hips").Find("spine").Find("chest").Find("shoulder.R").Find("upper_arm.R").Find("forearm.R").Find("hand.R").Find("USESLOT2");
             m_Animator.applyRootMotion = false;
             m_Animator.speed = m_AnimSpeedMultiplier;
         }

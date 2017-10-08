@@ -75,8 +75,8 @@ public class GunBeh : MonoBehaviour {
         {
             fire = true;
             holder--;
-            Transform bend = transform.FindChild("bend");
-            Transform bstart = transform.FindChild("bstart");
+            Transform bend = transform.Find("bend");
+            Transform bstart = transform.Find("bstart");
             int countbull = 0;
             while (numofbull > countbull)
             {
@@ -110,8 +110,8 @@ public class GunBeh : MonoBehaviour {
 
     void TubeGen()
     {
-        Transform bstart = transform.FindChild("bstart");
-        Transform bend = transform.FindChild("bend");
+        Transform bstart = transform.Find("bstart");
+        Transform bend = transform.Find("bend");
         GameObject tube = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         tube.tag = "tube";
         tube.transform.position = bstart.position;

@@ -60,8 +60,8 @@ public class EnemyBeh : MonoBehaviour
         m_Capsule = GetComponent<CapsuleCollider>();
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
-         slot1 = transform.FindChild("walking_zombie_metarig").FindChild("root").FindChild("hips").FindChild("chest").FindChild("shoulder.L").FindChild("upper_arm.L").FindChild("forearm.L").FindChild("hand.L").FindChild("palm.01.L");
-         slot2 = transform.FindChild("walking_zombie_metarig").FindChild("root").FindChild("hips").FindChild("chest").FindChild("shoulder.R").FindChild("upper_arm.R").FindChild("forearm.R").FindChild("hand.R").FindChild("palm.01.R");
+         slot1 = transform.Find("walking_zombie_metarig").Find("root").Find("hips").Find("chest").Find("shoulder.L").Find("upper_arm.L").Find("forearm.L").Find("hand.L").Find("palm.01.L");
+         slot2 = transform.Find("walking_zombie_metarig").Find("root").Find("hips").Find("chest").Find("shoulder.R").Find("upper_arm.R").Find("forearm.R").Find("hand.R").Find("palm.01.R");
         m_Animator.applyRootMotion = false;
         m_Animator.speed = m_AnimSpeedMultiplier;
         life = 20;
@@ -78,7 +78,7 @@ public class EnemyBeh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.FindChild("hp").GetComponent<TextMesh>().text = life.ToString();
+        transform.Find("hp").GetComponent<TextMesh>().text = life.ToString();
 
         stateInfo = m_Animator.GetCurrentAnimatorStateInfo(0);
          stateInfo1 = m_Animator.GetCurrentAnimatorStateInfo(1);

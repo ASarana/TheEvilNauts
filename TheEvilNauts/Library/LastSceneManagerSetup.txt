@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Data/Scenes/TENworkscene.unity
+- path: Assets/Data/Scenes/TEN.unity
   isLoaded: 1
   isActive: 1
